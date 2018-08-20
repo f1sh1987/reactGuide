@@ -3,6 +3,8 @@ import classes from './App.css';
 
 import Cockpit from '../components/Cockpit/Cockpit';
 import Persons from '../components/Persons/Persons';
+import withClass from '../hoc/withClass';
+import Aux from '../hoc/Aux2';
 
 
 class App extends PureComponent {
@@ -15,7 +17,8 @@ class App extends PureComponent {
         {id: 'sas11j2',name: 'Peter', age:29},
         {id: 'sah12x2',name: 'Stephanie', age:36}
       ],
-      showPersons: false
+      showPersons: false,
+      toogleClicked: 0
     }
     
   }
@@ -79,8 +82,11 @@ persons[personIndex] = person;
 }
 toogleHandler = () =>{
 const doesShow = this.state.showPersons;
-this.setState({
- showPersons: !doesShow 
+//Ensure that we use the correct prevState (maybe state changed somewhere else)
+this.setState((prevState, props) =>{
+ return {showPersons: !doesShow,
+ toogleClicked: prevState.toogleClicked+1
+ }
 });
 }
 //gets executed when react rerender something
@@ -101,15 +107,15 @@ if(this.state.showPersons){
 
     return (
      
-      <div className={classes.App}>
+     <Aux>
       <button onClick={()=>{this.setState({showPersons:true})}}>ShowButton</button>
  <Cockpit persons={this.state.persons} showPersons={this.state.showPersons} clicked={this.toogleHandler}/>
  {persons}
-      </div>
+      </Aux>
     
     );
   //  return React.createElement('div',{className: 'App'},React.createElement('h1', null, 'Does this work'))
   }
 }
 
-export default App;
+export default withClass(App, classes.App);

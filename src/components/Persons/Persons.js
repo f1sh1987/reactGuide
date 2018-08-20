@@ -42,7 +42,8 @@ componentDidUpdate(){
         name={person.name} 
         age={person.age}
         key={index}
-        changed={(event)=>this.props.changed(event,person.id)}/>
+        changed={(event)=>this.props.changed(event,person.id)}
+        position={index}/>
       });
     }
     }

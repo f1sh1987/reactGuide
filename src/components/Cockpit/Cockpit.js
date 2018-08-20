@@ -1,5 +1,7 @@
 import React from 'react';
 import classes from './Cockpit.css';
+import Aux from '../../hoc/Aux';
+import PropTypes from 'prop-types';
 const cockpit = (props) => {
     const assignedClasses = [];
 
@@ -10,20 +12,24 @@ const cockpit = (props) => {
       assignedClasses.push(classes.bold);
     }
 
-    let btnClass = null;
+    let btnClass = classes.Button;
     if(props.showPersons) {
-        btnClass = classes.Red;
+        btnClass = [classes.Button,classes.Red].join(' ');
     }
 
 //in root div scoping classes.Cockpit
 return( 
-<div className={classes.Cockpit}>
+<Aux>
 <h1>Hi i'm a react app</h1>
 <p className={assignedClasses.join(' ')}> This is really working</p>
 <button className={btnClass}
 onClick={props.clicked}>Toogle Persons</button>
-</div>
+</Aux>
 );
 };
+
+cockpit.propTypes = {
+  clicked: PropTypes.func
+}
 
 export default cockpit;
