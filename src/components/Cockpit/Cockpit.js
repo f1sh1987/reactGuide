@@ -24,6 +24,7 @@ return(
 <p className={assignedClasses.join(' ')}> This is really working</p>
 <button className={btnClass}
 onClick={props.clicked}>Toogle Persons</button>
+<button onClick={props.login}>Log In</button>
 </Aux>
 );
 };

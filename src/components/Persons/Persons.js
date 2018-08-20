@@ -44,7 +44,7 @@ componentDidUpdate(){
         name={person.name} 
         age={person.age}
         key={index}
-        ref={this.lastPersonRef}
+        forwaredRef={this.lastPersonRef}
         changed={(event)=>this.props.changed(event,person.id)}
         position={index}/>
       });

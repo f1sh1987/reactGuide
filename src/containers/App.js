@@ -6,6 +6,9 @@ import Persons from '../components/Persons/Persons';
 import withClass from '../hoc/withClass';
 import Aux from '../hoc/Aux2';
 
+//Create global state
+export const AuthContext = React.createContext(false);
+
 
 class App extends PureComponent {
   constructor(props) {
@@ -18,7 +21,8 @@ class App extends PureComponent {
         {id: 'sah12x2',name: 'Stephanie', age:36}
       ],
       showPersons: false,
-      toogleClicked: 0
+      toogleClicked: 0,
+      authenticated: false
     }
     
   }
@@ -43,6 +47,16 @@ class App extends PureComponent {
   componentDidUpdate(){
     console.log('[UPDATE App.js] Inside componentDidUpdate');
   }
+//executed before the render()
+  static getDerivedStateFromProps(nextProps, prevState){
+    console.log('[UPDATE App.js] getDerivedStateFromProps', nextProps,prevState );
+    return prevState;
+  }
+  getSnapshotBeforeUpdate(){
+    console.log('[UPDATE App.js] getSnapshotBeforeUpdate');
+  
+  }   
+ 
 
 
   //if state changes ==> re-render dom
@@ -89,6 +103,13 @@ this.setState((prevState, props) =>{
  }
 });
 }
+loginHandler = () =>{
+ 
+this.setState({
+  authenticated: !this.state.authenticated
+})
+}
+
 //gets executed when react rerender something
   render() {
     console.log('[App.js] Inside render()');
@@ -101,7 +122,7 @@ if(this.state.showPersons){
 //Important!!! key muss in die Error Boundary <ErrorBoundary key={index} um person gewrapped
 
   persons = (
-  <Persons persons={this.state.persons} clicked={this.deletePerson} changed={this.nameChangedHandler}/> 
+  <Persons persons={this.state.persons} clicked={this.deletePerson} changed={this.nameChangedHandler} /> 
   );
 }
 
@@ -109,8 +130,13 @@ if(this.state.showPersons){
      
      <Aux>
       <button onClick={()=>{this.setState({showPersons:true})}}>ShowButton</button>
- <Cockpit persons={this.state.persons} showPersons={this.state.showPersons} clicked={this.toogleHandler}/>
- {persons}
+ <Cockpit persons={this.state.persons} 
+          showPersons={this.state.showPersons} 
+          clicked={this.toogleHandler} 
+          login={this.loginHandler}/>
+          <AuthContext.Provider value={this.state.authenticated}>
+          {persons}
+          </AuthContext.Provider>
       </Aux>
     
     );
